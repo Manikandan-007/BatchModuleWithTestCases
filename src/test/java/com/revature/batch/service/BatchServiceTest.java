@@ -16,12 +16,18 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.revature.batch.dao.BatchImplDao;
 import com.revature.batch.dao.BatchTraineeDaoImpl;
+import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchListDto;
 import com.revature.batch.dto.CoTrainerListDto;
+import com.revature.batch.dto.RemovedCoTrainerAndDays;
 import com.revature.batch.exception.DBException;
 import com.revature.batch.exception.ServiceException;
+import com.revature.batch.exception.ValidatorException;
+import com.revature.batch.model.ActiveDay;
+import com.revature.batch.model.Batch;
 import com.revature.batch.model.BatchTrainee;
 import com.revature.batch.model.Candidate;
+import com.revature.batch.model.CoTrainer;
 import com.revature.batch.model.Trainer;
 import com.revature.batch.validator.BatchValidator;
 
@@ -92,7 +98,7 @@ public class BatchServiceTest {
 	}
 	
 	@Test
-	public void testBatchListServiceInValid (){
+	public void testBatchListServiceInValid () {
 		
 		BatchListDto batchListDto = new BatchListDto();
 		batchListDto.setId(1);
@@ -113,5 +119,48 @@ public class BatchServiceTest {
 		}
 		assertNull(BatchListDtoList);
 	}
+	
+	@Test
+	public void testBatchCreationServiceValid () {
+		
+		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		Batch batch = new Batch();
+		batch.setName("name");
+		batch.setActiveHrs(8);
+		batch.setTrainerId(1);
+		
+		batchDataDto.setBatch(batch);
+		
+		List<ActiveDay> dayList = new ArrayList<ActiveDay>();
+		ActiveDay activeDay = new ActiveDay();
+		activeDay.setDayId(1);
+		dayList.add(activeDay);
+		
+		batchDataDto.setDayList(dayList);
+		
+		List<CoTrainer> coTrainerList = new ArrayList<CoTrainer>();
+		CoTrainer coTrainer = new CoTrainer();
+		coTrainer.setTrainerId(1);
+		coTrainerList.add(coTrainer);
+		
+		batchDataDto.setCoTrainer(coTrainerList);
+		
+		RemovedCoTrainerAndDays removedCoTrainerAndDays = new RemovedCoTrainerAndDays(); 
+		removedCoTrainerAndDays.setCoTrainerList(coTrainerList);
+		removedCoTrainerAndDays.setDayList(dayList);
+		
+		try {
+			Mockito.when(batchValidator.createBatchValidator(batchDataDto)).thenReturn(removedCoTrainerAndDays);
+			
+			Mockito.when(batchImplDao.createBatchDao(batchDataDto)).thenReturn(true);
+			
+			removedCoTrainerAndDays = batchService.batchCreationService(batchDataDto);
+		} catch (ServiceException | ValidatorException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(removedCoTrainerAndDays);
+	}
+	
 
 }

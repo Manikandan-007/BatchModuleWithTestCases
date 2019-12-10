@@ -25,12 +25,14 @@ import com.revature.batch.util.MessageConstants;
 @Repository
 public class BatchImplDao {
 	
-	public void createBatchDao(BatchDataDto batchDataDto) throws DBException {
+	public boolean createBatchDao(BatchDataDto batchDataDto) throws DBException {
 		
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		Savepoint addbatches = null;
+		int rows = 0;
+		boolean isInserted = false;
 		try {
 				con = ConnectionUtil.getConnection();
 				con.setAutoCommit(false);
@@ -85,7 +87,7 @@ public class BatchImplDao {
 				}
 				sql = "insert into cotrainers (trainer_id, batch_id) values "+ CoTrainerDataStr;
 				pst = con.prepareStatement(sql);
-				pst.executeUpdate();
+				rows = pst.executeUpdate();
 				
 				con.commit();
 		} catch (SQLException e) {
@@ -98,6 +100,11 @@ public class BatchImplDao {
 		} finally {
 			ConnectionUtil.close(con, pst, rs);
 		}
+		
+		if(rows >= 0) {
+			isInserted = true;
+		}
+		return isInserted;
 	}
 
 	public List<BatchListDto> getBatchList() {
