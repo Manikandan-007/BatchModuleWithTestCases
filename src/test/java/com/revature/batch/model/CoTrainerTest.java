@@ -1,14 +1,18 @@
 package com.revature.batch.model;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertNotNull;
 
-class CoTrainerTest {
+import org.junit.Test;
+
+public class CoTrainerTest {
 
 	@Test
-	void testCoTrainer() {
+	public void testCoTrainer() {
 		CoTrainer coTrainer = new CoTrainer();
 		coTrainer.setTrainerId(1);
 		coTrainer.getTrainerId();
+		
+		assertNotNull(coTrainer);
 	}
 
 }

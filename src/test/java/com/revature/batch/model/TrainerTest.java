@@ -1,14 +1,16 @@
 package com.revature.batch.model;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class TrainerTest {
+public class TrainerTest {
 
 	@Test
-	void testTrainer() {
+	public void testTrainer() {
 		Trainer trainer = new Trainer();
 		trainer.setId(1);
 		Date date = new Date(1);  
@@ -23,6 +25,8 @@ class TrainerTest {
 		trainer.getEmail();
 		trainer.getMobile();
 		trainer.getName();
+		
+		assertNotNull(trainer);
 	}
 
 }

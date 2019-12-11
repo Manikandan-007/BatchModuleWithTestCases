@@ -1,14 +1,16 @@
 package com.revature.batch.model;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class CandidateTest {
+public class CandidateTest {
 
 	@Test
-	void testCandidate() {
+	public void testCandidate() {
 		Candidate candidate = new Candidate();
 		Date date = new Date(1);  
         Timestamp ts=new Timestamp(date.getTime());  
@@ -23,6 +25,9 @@ class CandidateTest {
 		candidate.getId();
 		candidate.getMobile();
 		candidate.getName();
+		
+		assertNotNull(candidate);
+		
 	}
 
 }

@@ -6,9 +6,6 @@ import com.revature.batch.model.ActiveDay;
 import com.revature.batch.model.Batch;
 import com.revature.batch.model.CoTrainer;
 
-import lombok.Data;
-
-@Data
 public class BatchDataDto {
 
 	private Batch batch;
@@ -23,6 +20,31 @@ public class BatchDataDto {
 		this.dayList = dayList;
 		this.coTrainer = coTrainer;
 	}
+
+	public Batch getBatch() {
+		return batch;
+	}
+
+	public void setBatch(Batch batch) {
+		this.batch = batch;
+	}
+
+	public List<ActiveDay> getDayList() {
+		return dayList;
+	}
+
+	public void setDayList(List<ActiveDay> dayList) {
+		this.dayList = dayList;
+	}
+
+	public List<CoTrainer> getCoTrainer() {
+		return coTrainer;
+	}
+
+	public void setCoTrainer(List<CoTrainer> coTrainer) {
+		this.coTrainer = coTrainer;
+	}
+	
 }
 
 

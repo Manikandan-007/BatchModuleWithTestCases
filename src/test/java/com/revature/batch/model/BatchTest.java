@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class BatchTest {
 
 	@Test
-	void testBatchModel() {
+	public void testBatchModel() {
 		Batch batch = new Batch();
 		
 		batch.setActiveHrs(8);

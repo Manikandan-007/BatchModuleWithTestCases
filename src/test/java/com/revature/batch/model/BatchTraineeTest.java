@@ -1,14 +1,16 @@
 package com.revature.batch.model;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class BatchTraineeTest {
+public class BatchTraineeTest {
 
 	@Test
-	void testBatchTrainee() {
+	public void testBatchTrainee() {
 		BatchTrainee batchTrainee = new BatchTrainee();
 		batchTrainee.setCandidateId(1);
 		batchTrainee.setActiveStatus(1);
@@ -27,7 +29,7 @@ class BatchTraineeTest {
 		batchTrainee.getBatchId();
 		batchTrainee.getCandidate();
 		batchTrainee.getId();
-		
+		assertNotNull(batchTrainee);
 	}
 
 }

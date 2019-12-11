@@ -1,17 +1,21 @@
 package com.revature.batch.model;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertNotNull;
 
-class DayTest {
+import org.junit.Test;
+
+public class DayTest {
 
 	@Test
-	void testDay() {
+	public void testDay() {
 		Day day = new Day();
 		day.setDay("Sunday");
 		day.setId(1);
 		
 		day.getDay();
 		day.getId();
+		
+		assertNotNull(day);
 	}
 
 }
