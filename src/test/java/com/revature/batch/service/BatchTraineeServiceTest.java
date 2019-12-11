@@ -106,7 +106,7 @@ public class BatchTraineeServiceTest {
 			when(batchTraineeDaoImpl.addTraineeIntoBatch(null)).thenThrow(DBException.class);
 			
 			isInserted = batchTraineeService.addBatchTraineeService(batchTraineeListDto);
-		} catch (ValidatorException | ServiceException e) {
+		} catch (DBException | ValidatorException | ServiceException e) {
 			e.printStackTrace();
 		}
 		assertFalse(isInserted);

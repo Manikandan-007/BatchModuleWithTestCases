@@ -1,8 +1,13 @@
 package com.revature.batch.model;
 
-import lombok.Data;
-
-@Data
 public class ActiveDay {
 	private int dayId;
+
+	public int getDayId() {
+		return dayId;
+	}
+
+	public void setDayId(int dayId) {
+		this.dayId = dayId;
+	}
 }

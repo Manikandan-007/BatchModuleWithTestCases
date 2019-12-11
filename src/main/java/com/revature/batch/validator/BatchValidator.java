@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.revature.batch.dao.CandidateDaoImpl;
 import com.revature.batch.dao.DayDaoImpl;
@@ -20,15 +20,23 @@ import com.revature.batch.model.ActiveDay;
 import com.revature.batch.model.Candidate;
 import com.revature.batch.model.CoTrainer;
 
-@Service
+@Component
 public class BatchValidator {
 
 	@Autowired
 	private CandidateDaoImpl candidateDaoImpl;
 	
+	public BatchValidator(CandidateDaoImpl candidateDaoImpl) {
+		this.candidateDaoImpl = candidateDaoImpl;
+	}
+
 	@Autowired
 	private DayDaoImpl dayDaoImpl;
 	
+	public BatchValidator(DayDaoImpl dayDaoImpl) {
+		this.dayDaoImpl = dayDaoImpl;
+	}
+
 	public RemovedCoTrainerAndDays createBatchValidator(BatchDataDto batchDataDto) throws ValidatorException {
 		
 		if (batchDataDto.getBatch().getName() == null || "".equals(batchDataDto.getBatch().getName().trim())) 
@@ -52,25 +60,31 @@ public class BatchValidator {
 		//Remove CoTrainer object which has been same TrainerId as in-charge from CoTrainerList 
 	    List<CoTrainer> coTrainerList = batchDataDto.getCoTrainer();
 	    List<CoTrainer> coTrainerListCopy = new ArrayList<CoTrainer>();
-			for (CoTrainer coTrainer : coTrainerList) {
-				if(batchDataDto.getBatch().getTrainerId() == coTrainer.getTrainerId()) {
+		    coTrainerList.stream().forEach((coTrainer) -> {
+		    	if(batchDataDto.getBatch().getTrainerId() == coTrainer.getTrainerId()) {
 					coTrainerListCopy.add(coTrainer);
 				}
-			}
+		    }
+		    );	
 			coTrainerList.removeAll(coTrainerListCopy);
-		System.out.println(coTrainerList);
+			System.out.println(coTrainerList);
 		
 		//Remove Day object from DayList, if it is not there in days table 
 		List<ActiveDay> dayList = batchDataDto.getDayList();
 		List<ActiveDay> dayListCopy = new ArrayList<ActiveDay>();
-		for (ActiveDay activeDay : dayList) {
-			boolean isDayPresent = dayDaoImpl.checkIsDayPresent(activeDay);
-			if(isDayPresent != true) {
-				dayListCopy.add(activeDay);
+			dayList.stream().forEach((activeDay) -> {
+				boolean isDayPresent = dayDaoImpl.checkIsDayPresent(activeDay);
+				if(isDayPresent != true) {
+					dayListCopy.add(activeDay);
+				}
 			}
-		}
-		dayList.removeAll(dayListCopy);
-		System.out.println(dayList);
+			);
+			dayList.removeAll(dayListCopy);
+			System.out.println(dayList);
+		
+			if( coTrainerList.isEmpty() ) {
+				throw new ValidatorException("All selected Co-trainers are Invalid.");
+			}
 		//Store Removed list into RemovedCoTrainerAndDays dto class
 		RemovedCoTrainerAndDays removedCoTrainerAndDays = new RemovedCoTrainerAndDays(); 
 		removedCoTrainerAndDays.setCoTrainerList(coTrainerListCopy);
@@ -99,6 +113,9 @@ public class BatchValidator {
 								);
 					}
 					);
+			if( availableCandidates.isEmpty() ) {
+				throw new ValidatorException("All selected Batch trainees are Invalid.");
+			}
 			
 		System.out.println(availableCandidates);
 		return availableCandidates;

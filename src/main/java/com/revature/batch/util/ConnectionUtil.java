@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import com.revature.batch.exception.DBException;
 
+@Component
 public class ConnectionUtil {
 
 	private static final String DRIVERCLASSNAME = "com.mysql.cj.jdbc.Driver";

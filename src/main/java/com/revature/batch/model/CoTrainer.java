@@ -1,8 +1,15 @@
 package com.revature.batch.model;
 
-import lombok.Data;
-
-@Data
 public class CoTrainer {
+	public int getTrainerId() {
+		return trainerId;
+	}
+
+	public void setTrainerId(int trainerId) {
+		this.trainerId = trainerId;
+	}
+
 	private int trainerId;
+	
+	
 }

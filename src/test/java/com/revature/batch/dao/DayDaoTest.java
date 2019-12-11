@@ -4,16 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batch.model.ActiveDay;
 
-@RunWith(SpringRunner.class)
 public class DayDaoTest {
 
-	@InjectMocks
-	public DayDaoImpl dayDao;
+	private DayDaoImpl dayDao = new DayDaoImpl();
 	
 	@Test
 	public void testCheckIsDayPresent() {

@@ -6,18 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.batch.dto.BatchTraineeDto;
 import com.revature.batch.model.Candidate;
 
-@RunWith(SpringRunner.class)
 public class CandidateDaoTest {
 
-	@InjectMocks
-	private CandidateDaoImpl CandidateDao;
+	private CandidateDaoImpl CandidateDao = new CandidateDaoImpl();
 	
 	@Test
 	public void testGetCandidate() {
@@ -30,7 +25,7 @@ public class CandidateDaoTest {
 		batchTraineeList.add(batchTraineeDto);
 		
 		List<Candidate> isCandidateAvailable = CandidateDao.getCandidate(batchTraineeList);
-		
+		System.out.println(isCandidateAvailable);
 		assertNotNull(isCandidateAvailable);
 	}
 	

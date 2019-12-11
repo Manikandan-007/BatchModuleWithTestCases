@@ -208,7 +208,9 @@ public class BatchImplDao {
 				throw new DBException(MessageConstants.UNABLE_TO_GET_BATCH_LIST);
 			} catch (SQLException e) {
 				throw new DBException(MessageConstants.UNABLE_TO_GET_BATCH_LIST);
-		}
+			}finally {
+				ConnectionUtil.close(con, pst, rs);
+			}
 		
 		return coTrainerList;
 	}

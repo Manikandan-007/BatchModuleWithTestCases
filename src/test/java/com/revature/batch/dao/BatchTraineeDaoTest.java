@@ -1,25 +1,41 @@
 package com.revature.batch.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-class BatchTraineeDaoTest {
+import com.revature.batch.dto.BatchTraineeDto;
+
+@RunWith(MockitoJUnitRunner.class)
+public class BatchTraineeDaoTest {
 
 	@InjectMocks
 	private BatchTraineeDaoImpl batchTraineeDao;
 	
 	@Test
-	void testAddTraineeIntoBatch() {
+	public void testAddTraineeIntoBatch() {
 		
+		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
+		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		
-		fail("Not yet implemented");
+		batchTraineeDto.setId(1);
+		batchTraineeDto.setBatchId(1);
+		batchTraineeDto.setUserMail("user1@gmail.com");
+		
+		batchTraineeList.add(batchTraineeDto);
+		
+		when(batchTraineeDao.addTraineeIntoBatch(batchTraineeList)).thenReturn(true);
+		
+		boolean isInserted = batchTraineeDao.addTraineeIntoBatch(batchTraineeList);
+		assertTrue(isInserted);
+		
 	}
 
 }

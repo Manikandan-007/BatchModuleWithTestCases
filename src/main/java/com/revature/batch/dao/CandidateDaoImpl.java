@@ -56,7 +56,9 @@ public class CandidateDaoImpl {
 				throw new DBException(e.getMessage());
 			} catch (SQLException e) {
 				throw new DBException(e.getMessage());
-		}
+			}finally {
+				ConnectionUtil.close(con, pst, rs);
+			}
 		return availableCandidateList;
 	}
 	

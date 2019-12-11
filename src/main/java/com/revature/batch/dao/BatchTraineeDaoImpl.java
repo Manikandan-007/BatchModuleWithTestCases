@@ -8,6 +8,9 @@ import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.revature.batch.dto.BatchTraineeDto;
@@ -21,7 +24,7 @@ import com.revature.batch.util.MessageConstants;
 public class BatchTraineeDaoImpl {
 
 	public boolean addTraineeIntoBatch(List<BatchTraineeDto> batchTraineeList) {
-
+		
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
