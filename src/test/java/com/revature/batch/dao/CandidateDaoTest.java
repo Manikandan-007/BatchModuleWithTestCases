@@ -1,6 +1,7 @@
 package com.revature.batch.dao;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class CandidateDaoTest {
 		batchTraineeList.add(batchTraineeDto);
 		
 		List<Candidate> isCandidateAvailable = CandidateDao.getCandidate(batchTraineeList);
+		assertTrue(isCandidateAvailable.isEmpty());
 	}
 
 }
