@@ -8,6 +8,8 @@ import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.revature.batch.dto.BatchTraineeDto;
@@ -20,6 +22,16 @@ import com.revature.batch.util.MessageConstants;
 @Repository
 public class BatchTraineeDaoImpl {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchImplDao.class);
+	
+	/** 
+	 * addTraineeIntoBatch in BatchTraineeDaoImpl
+	 * @Param List<BatchTraineeDto>
+	 * 
+	 * return boolean
+	 * 
+	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
+	 */
 	public boolean addTraineeIntoBatch(List<BatchTraineeDto> batchTraineeList) {
 		
 		Connection con = null;
@@ -55,7 +67,7 @@ public class BatchTraineeDaoImpl {
 			try {
 				con.rollback(addTrainee);
 			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
+				LOGGER.error(e1.getMessage());
 			}
 			throw new DBException(MessageConstants.UNABLE_TO_ADD_TRAINEE);
 		} finally {
@@ -68,6 +80,14 @@ public class BatchTraineeDaoImpl {
 		return isInserted;
 	}
 
+	/** 
+	 * getBatchTraineeList in BatchTraineeDaoImpl
+	 * @Param id
+	 * 
+	 * return List<BatchTrainee>
+	 * 
+	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
+	 */
 	public List<BatchTrainee> getBatchTraineeList(int id) {
 		Connection con = null;
 		PreparedStatement pst = null;

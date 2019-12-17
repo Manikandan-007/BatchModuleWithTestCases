@@ -1,0 +1,32 @@
+= Batch Trainee Endpoints
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:sectnums:
+
+[.text-right]
+link:index.html[Back To Index]
+
+[[batch-trainee]]
+[source,role="data"]
+== Batch Trainee
+
+== Add Trainee
+
+.request
+include::{snippets}/BatchTraineeController/add_trainee/http-request.adoc[]
+
+.response
+include::{snippets}/BatchTraineeController/add_trainee/http-response.adoc[]
+
+.curl-request
+include::{snippets}/BatchTraineeController/add_trainee/curl-request.adoc[]
+
+.request-body
+include::{snippets}/BatchTraineeController/add_trainee/request-body.adoc[]
+
+.response-body
+include::{snippets}/BatchTraineeController/add_trainee/response-body.adoc[]

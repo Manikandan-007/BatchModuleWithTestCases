@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.revature.batch.dto.BatchDataDto;
@@ -25,6 +27,16 @@ import com.revature.batch.util.MessageConstants;
 @Repository
 public class BatchImplDao {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchImplDao.class);
+	
+	/** 
+	 * createBatchDao in BatchImplDao
+	 * @Param BatchDataDto
+	 * 
+	 * return boolean
+	 * 
+	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
+	 */
 	public boolean createBatchDao(BatchDataDto batchDataDto) throws DBException {
 		
 		Connection con = null;
@@ -56,7 +68,6 @@ public class BatchImplDao {
 	
 				if (rs.next()) {
 					batchId = rs.getInt("last_insert_id()");
-					System.out.println(batchId);
 				}
 				
 				//Day List Insertion
@@ -94,7 +105,7 @@ public class BatchImplDao {
 			try {
 				con.rollback(addbatches);
 			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
+				LOGGER.debug(e1.getMessage());
 			}
 			throw new DBException(e.getMessage());
 		} finally {
@@ -107,6 +118,14 @@ public class BatchImplDao {
 		return isInserted;
 	}
 
+	/** 
+	 * getBatchList in BatchImplDao
+	 * @Param NO parameter
+	 * 
+	 * return List<BatchListDto>
+	 * 
+	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
+	 */
 	public List<BatchListDto> getBatchList() {
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -124,7 +143,7 @@ public class BatchImplDao {
 			rs = pst.executeQuery();
 			list= new ArrayList<BatchListDto>();
 			while (rs.next()) {
-				BatchListDto batchListDto = toRow1(rs);
+				BatchListDto batchListDto = getAndStoreInDto(rs);
 				
 				list.add(batchListDto);
 			}
@@ -137,7 +156,13 @@ public class BatchImplDao {
 		return list;
 	}
 
-	private BatchListDto toRow1(ResultSet rs) throws SQLException {
+	/** 
+	 * getAndStoreInDto in BatchImplDao
+	 * @Param ResultSet
+	 * 
+	 * return boolean
+	 */
+	private BatchListDto getAndStoreInDto(ResultSet rs) throws SQLException {
 		int batchId = rs.getInt("b.id");
 		String batchName = rs.getString("b.name");
 		Timestamp startDate = rs.getTimestamp("start_date");
@@ -173,6 +198,14 @@ public class BatchImplDao {
 		return batchListDto;
 	}
 
+	/** 
+	 * getCoTrainerList in BatchImplDao
+	 * @Param batchID
+	 * 
+	 * return List<CoTrainerListDto>
+	 * 
+	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
+	 */
 	public List<CoTrainerListDto> getCoTrainerList(int batchID) {
 		
 		Connection con = null;

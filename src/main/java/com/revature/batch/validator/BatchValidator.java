@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,8 @@ import com.revature.batch.model.CoTrainer;
 @Component
 public class BatchValidator {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchValidator.class);
+	
 	@Autowired
 	private CandidateDaoImpl candidateDaoImpl;
 	
@@ -37,6 +41,14 @@ public class BatchValidator {
 		this.dayDaoImpl = dayDaoImpl;
 	}
 
+	/** 
+	 * CreateBatchValidator in BatchValidator
+	 * @Param BatchDataDto object
+	 * 
+	 * return RemovedCoTrainerAndDays
+	 * 
+	 * If the credential is Invalid, throw Exception
+	 */
 	public RemovedCoTrainerAndDays createBatchValidator(BatchDataDto batchDataDto) throws ValidatorException {
 		
 		if (batchDataDto.getBatch().getName() == null || "".equals(batchDataDto.getBatch().getName().trim())) 
@@ -50,11 +62,11 @@ public class BatchValidator {
 			d1 = sdformat.parse(""+batchDataDto.getBatch().getStartDate()+"");
 			d2 = sdformat.parse(""+batchDataDto.getBatch().getEndDate()+"");
 			if(d1.compareTo(d2) > 0) {
-		         System.out.println("Date 1 occurs after Date 2");
+		         LOGGER.info("Date 1 occurs after Date 2");
 		         throw new ValidatorException("Start date should not exceed End date..");
 		      }
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 		
 		//Remove CoTrainer object which has been same TrainerId as in-charge from CoTrainerList 
@@ -80,7 +92,7 @@ public class BatchValidator {
 			}
 			);
 			dayList.removeAll(dayListCopy);
-			System.out.println(dayList);
+			LOGGER.info("--->", dayList);
 		
 			if( coTrainerList.isEmpty() ) {
 				throw new ValidatorException("All selected Co-trainers are Invalid.");
@@ -92,10 +104,16 @@ public class BatchValidator {
 		return removedCoTrainerAndDays;	
 	}
 
+	/** 
+	 * batchTraineeValidator in BatchValidator
+	 * @Param List<BatchTraineeDto> object
+	 * 
+	 * return List<BatchTraineeDto>
+	 * 
+	 * If the credential is Invalid, throw Exception
+	 */
 	public List<BatchTraineeDto> batchTraineeValidator(List<BatchTraineeDto> batchTraineeList) throws ValidatorException {
 
-		System.out.println("======>"+batchTraineeList);
-		
 			List<Candidate> candidateList = candidateDaoImpl.getCandidate(batchTraineeList);
 			List<String> availableCandidateEmails= candidateList.stream()
 					.map(candidate -> candidate.getEmail())
@@ -117,16 +135,9 @@ public class BatchValidator {
 				throw new ValidatorException("All selected Batch trainees are Invalid.");
 			}
 			
-		System.out.println(availableCandidates);
+			LOGGER.info("--->", availableCandidates);
 		return availableCandidates;
 	}
 
 }
 
-/*
- * for (BatchTraineeDto batchTraineeDto : batchTraineeList1) { for (Candidate
- * candidate : candidateList) { if(candidate.getEmail() !=
- * batchTraineeDto.getUserMail()) {
- * 
- * } } }
- */

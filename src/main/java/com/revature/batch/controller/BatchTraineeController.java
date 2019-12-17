@@ -40,21 +40,4 @@ public class BatchTraineeController {
 		}
 	}
 	
-	/*
-	 * @PostMapping("/add_trainee")
-	 * 
-	 * @ApiOperation(value = "Batch API")
-	 * 
-	 * @ApiResponses(value = { @ApiResponse(code = 200, message = "Success",
-	 * response = Message.class),
-	 * 
-	 * @ApiResponse(code = 400, message = "Unable to get data", response =
-	 * Message.class) }) public ResponseEntity<?> addTrainee(@RequestParam int
-	 * BatchId) {
-	 * 
-	 * try { List<> batchTraineeService.getBatchTraineeList(BatchId); return new
-	 * ResponseEntity<>(message, HttpStatus.OK ); } catch (ServiceException e) {
-	 * Message message = new Message(e.getMessage()); return new
-	 * ResponseEntity<>(message, HttpStatus.BAD_REQUEST ); } }
-	 */
 }

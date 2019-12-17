@@ -2,6 +2,8 @@ package com.revature.batch.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import com.revature.batch.validator.BatchValidator;
 @Service
 public class BatchService {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
+	
 	@Autowired
 	private BatchImplDao batchImplDao;
 	
@@ -31,6 +35,15 @@ public class BatchService {
 	@Autowired
 	private BatchTraineeDaoImpl batchTraineeDaoImpl;
 
+	/** 
+	 * batchCreationService in BatchService
+	 * @Param BatchDataDto object
+	 * 
+	 * return RemovedCoTrainerAndDays
+	 * 
+	 * If the credential is Invalid or if DB issue occur in DAO,
+	 *  Here it will throw ServiceException
+	 */
 	public RemovedCoTrainerAndDays batchCreationService(BatchDataDto batchDataDto) throws ServiceException {
 
 		RemovedCoTrainerAndDays removedCoTrainerAndDays = null;
@@ -48,19 +61,29 @@ public class BatchService {
 			batchDataDto.setCoTrainer(coTrainerList);
 			batchDataDto.setDayList(dayList);
 			
-			System.out.println(batchDataDto);
-			System.out.println(removedCoTrainerAndDays);
+			LOGGER.info("--->", batchDataDto);
+			LOGGER.debug("--->", removedCoTrainerAndDays);
 			batchImplDao.createBatchDao(batchDataDto);
 			
 		} catch (DBException e) {
+			LOGGER.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} catch (ValidatorException e) {
+			LOGGER.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 		
 		return removedCoTrainerAndDays;
 	}
 
+	/** 
+	 * batchListService in BatchService
+	 * @Param No parameter
+	 * 
+	 * return List<BatchListDto>
+	 * 
+	 * if DB issue occur in DAO, Here it will throw ServiceException
+	 */
 	public List<BatchListDto> batchListService() throws ServiceException {
 		
 		List<BatchListDto> batchList;
@@ -75,6 +98,7 @@ public class BatchService {
 				batchListDto.setBatchTraineeList(batchTraineeList);
 			}
 		} catch (DBException e) {
+			LOGGER.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 		
