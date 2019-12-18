@@ -6,6 +6,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -48,8 +51,8 @@ public class BatchTraineeControllerTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(batchTraineeController)
 				.apply(documentationConfiguration(this.restDocumentation))
 				.build();
-		
 	}
+	
 	@Test
 	public void testBatchTraineeControllerValid() throws Exception {
 		
@@ -72,10 +75,16 @@ public class BatchTraineeControllerTest {
 		
 		String userJson = new ObjectMapper().writeValueAsString(batchTraineeListDto);
 		mockMvc.perform(post("/batchTrainee/add_trainee")
-					.contentType(MediaType.APPLICATION_JSON_UTF8).content(userJson))
+					.contentType(MediaType.APPLICATION_JSON).content(userJson)
+					.characterEncoding("utf-8"))
 					.andDo(print())
 					.andDo(document("BatchTraineeController/add_trainee", preprocessRequest(prettyPrint()),
-				            preprocessResponse(prettyPrint())));
+				            preprocessResponse(prettyPrint()), 
+				            requestFields(
+				            		fieldWithPath("batchTraineeList[].batchId").description("Id of the Batch")
+				            		.attributes(key("required").value(true)),
+				            		fieldWithPath("batchTraineeList[].userMail").description("Candidate Mail-Id")
+				            		.attributes(key("required").value(true)))));
 		
 	}
 

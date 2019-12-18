@@ -1,4 +1,3 @@
-= Batch Trainee Endpoints
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -7,6 +6,8 @@
 :sectlinks:
 :sectnums:
 
+= Batch Trainee Endpoints
+
 [.text-right]
 link:index.html[Back To Index]
 
@@ -14,19 +15,22 @@ link:index.html[Back To Index]
 [source,role="data"]
 == Batch Trainee
 
-== Add Trainee
+=== Add Trainee
 
-.request
+==== HTTP Request
 include::{snippets}/BatchTraineeController/add_trainee/http-request.adoc[]
 
-.response
+==== HTTP Response
 include::{snippets}/BatchTraineeController/add_trainee/http-response.adoc[]
 
-.curl-request
+==== Request Field
+include::{snippets}/BatchTraineeController/add_trainee/request-fields.adoc[]
+
+==== Curl Request
 include::{snippets}/BatchTraineeController/add_trainee/curl-request.adoc[]
 
-.request-body
+==== Request Body
 include::{snippets}/BatchTraineeController/add_trainee/request-body.adoc[]
 
-.response-body
+==== Response Body
 include::{snippets}/BatchTraineeController/add_trainee/response-body.adoc[]

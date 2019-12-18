@@ -7,6 +7,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -157,6 +157,10 @@ public class CreateBatchTest {
 		activeDay.setDayId(1);
 		dayList.add(activeDay);
 		
+		ActiveDay activeDay1 = new ActiveDay();
+		activeDay1.setDayId(8);
+		dayList.add(activeDay1);
+		
 		batchDataDto.setDayList(dayList);
 		
 		List<CoTrainer> coTrainerList = new ArrayList<CoTrainer>();
@@ -164,17 +168,31 @@ public class CreateBatchTest {
 		coTrainer.setTrainerId(1);
 		coTrainerList.add(coTrainer);
 		
+		CoTrainer coTrainer1 = new CoTrainer();
+		coTrainer1.setTrainerId(2);
+		coTrainerList.add(coTrainer1);
+		
 		batchDataDto.setCoTrainer(coTrainerList);
 		
 		RemovedCoTrainerAndDays removedCoTrainerAndDays = new RemovedCoTrainerAndDays(); 
-		removedCoTrainerAndDays.setCoTrainerList(coTrainerList);
-		removedCoTrainerAndDays.setDayList(dayList);
+		List<CoTrainer> coTrainerListRemoved = new ArrayList<CoTrainer>();
+		CoTrainer coTrainerRemoved = new CoTrainer();
+		coTrainerRemoved.setTrainerId(1);
+		coTrainerListRemoved.add(coTrainerRemoved);
+		
+		List<ActiveDay> dayListRemoved = new ArrayList<ActiveDay>();
+		ActiveDay activeDayRemoved = new ActiveDay();
+		activeDayRemoved.setDayId(8);
+		dayListRemoved.add(activeDayRemoved);
+		
+		removedCoTrainerAndDays.setCoTrainerList(coTrainerListRemoved);
+		removedCoTrainerAndDays.setDayList(dayListRemoved);
 		
 		when(batchService.batchCreationService(batchDataDto)).thenReturn(removedCoTrainerAndDays);
 		
 		String userJson = new ObjectMapper().writeValueAsString(batchDataDto);
-		mockMvc.perform(get("/batch/create_new")
-					.contentType(MediaType.APPLICATION_JSON).content(userJson)
+		mockMvc.perform(post("/batch/create_new")
+					.contentType("application/json").content(userJson)
 					.characterEncoding("utf-8"))
 					.andDo(print())
 					.andDo(document("CreateBatch/create_new", preprocessRequest(prettyPrint()),

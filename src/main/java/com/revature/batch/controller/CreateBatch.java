@@ -23,13 +23,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("batch")
+@RequestMapping("/")
 public class CreateBatch {
 
 	@Autowired
 	private BatchService batchService;
 	
-	@PostMapping("/create_new")
+	@PostMapping("batch")
 	@ApiOperation(value = "Batch API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
@@ -45,7 +45,7 @@ public class CreateBatch {
 		}
 	}
 	
-	@GetMapping("/batch_list")
+	@GetMapping("batches")
 	@ApiOperation(value = "Batch API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = List.class),
 			@ApiResponse(code = 400, message = "Unable to get data", response = Message.class) })

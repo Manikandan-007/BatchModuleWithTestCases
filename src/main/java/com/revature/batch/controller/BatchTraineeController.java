@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("batchTrainee")
 public class BatchTraineeController {
 
-	@Autowired
+	@Autowired 
 	private BatchTraineeService batchTraineeService;
 	
 	@PostMapping("/add_trainee")

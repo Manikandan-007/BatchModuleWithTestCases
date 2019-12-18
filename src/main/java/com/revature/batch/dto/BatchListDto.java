@@ -14,6 +14,7 @@ import lombok.Data;
 public class BatchListDto {
 	
 	private int id;
+	
 	private String name;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
