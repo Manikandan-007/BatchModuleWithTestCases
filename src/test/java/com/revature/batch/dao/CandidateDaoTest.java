@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.revature.batch.dto.BatchTraineeDto;
+import com.revature.batch.exception.DBException;
 import com.revature.batch.model.Candidate;
 
 public class CandidateDaoTest {
@@ -16,7 +17,7 @@ public class CandidateDaoTest {
 	private CandidateDaoImpl CandidateDao = new CandidateDaoImpl();
 	
 	@Test
-	public void testGetCandidate() {
+	public void testGetCandidate() throws DBException {
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		
@@ -31,7 +32,7 @@ public class CandidateDaoTest {
 	}
 	
 	@Test
-	public void testGetCandidateInvalid() {
+	public void testGetCandidateInvalid() throws DBException {
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		

@@ -17,7 +17,7 @@ import com.revature.batch.util.ConnectionUtil;
 @Repository
 public class CandidateDaoImpl {
 
-	public List<Candidate> getCandidate(List<BatchTraineeDto> batchTraineeList) {
+	public List<Candidate> getCandidate(List<BatchTraineeDto> batchTraineeList) throws DBException {
 		
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -52,8 +52,6 @@ public class CandidateDaoImpl {
 					
 					availableCandidateList.add(candidate);
 				}
-			} catch (DBException e) {
-				throw new DBException(e.getMessage());
 			} catch (SQLException e) {
 				throw new DBException(e.getMessage());
 			}finally {

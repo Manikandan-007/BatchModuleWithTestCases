@@ -15,6 +15,7 @@ import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchListDto;
 import com.revature.batch.dto.RemovedCoTrainerAndDays;
 import com.revature.batch.exception.ServiceException;
+import com.revature.batch.exception.ValidatorException;
 import com.revature.batch.service.BatchService;
 import com.revature.batch.util.Message;
 
@@ -24,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/")
-public class CreateBatch {
+public class BatchController {
 
 	@Autowired
 	private BatchService batchService;
@@ -36,12 +37,16 @@ public class CreateBatch {
 	public ResponseEntity<?> batchCreation(@RequestBody BatchDataDto batchDataDto) {
 	
 		try {
-			RemovedCoTrainerAndDays removedCoTrainerAndDays = batchService.batchCreationService(batchDataDto);
+			RemovedCoTrainerAndDays removedCoTrainerAndDays;
+				removedCoTrainerAndDays = batchService.batchCreationService(batchDataDto);
 			Message message = new Message("Batch Created Successfully except these data, "+removedCoTrainerAndDays);
 			return new ResponseEntity<>(message, HttpStatus.OK );
-		} catch (ServiceException e) {
+		} catch (ValidatorException e) {
 			Message message = new Message(e.getMessage());
 			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
+		}catch (ServiceException e) {
+			Message message = new Message(e.getMessage());
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR );
 		}
 	}
 	
@@ -56,7 +61,7 @@ public class CreateBatch {
 			return new ResponseEntity<>(batchListDto, HttpStatus.OK );
 		} catch (ServiceException e) {
 			Message message = new Message(e.getMessage());
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR );
 		}
 	}
 }

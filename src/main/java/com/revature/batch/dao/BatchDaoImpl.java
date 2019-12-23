@@ -25,9 +25,9 @@ import com.revature.batch.util.ConnectionUtil;
 import com.revature.batch.util.MessageConstants;
 
 @Repository
-public class BatchImplDao {
+public class BatchDaoImpl {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(BatchImplDao.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchDaoImpl.class);
 	
 	/** 
 	 * createBatchDao in BatchImplDao
@@ -120,13 +120,14 @@ public class BatchImplDao {
 
 	/** 
 	 * getBatchList in BatchImplDao
+	 * @throws DBException 
 	 * @Param NO parameter
 	 * 
 	 * return List<BatchListDto>
 	 * 
 	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
 	 */
-	public List<BatchListDto> getBatchList() {
+	public List<BatchListDto> getBatchList() throws DBException {
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -147,12 +148,9 @@ public class BatchImplDao {
 				
 				list.add(batchListDto);
 			}
-		} catch (DBException e) {
-			throw new DBException(e.getMessage());
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			throw new DBException(e.getMessage());
 		}
-		
 		return list;
 	}
 
@@ -200,13 +198,14 @@ public class BatchImplDao {
 
 	/** 
 	 * getCoTrainerList in BatchImplDao
+	 * @throws DBException 
 	 * @Param batchID
 	 * 
 	 * return List<CoTrainerListDto>
 	 * 
 	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
 	 */
-	public List<CoTrainerListDto> getCoTrainerList(int batchID) {
+	public List<CoTrainerListDto> getCoTrainerList(int batchID) throws DBException {
 		
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -237,9 +236,7 @@ public class BatchImplDao {
 					
 					coTrainerList.add(coTrainerListDto);
 				}
-			} catch (DBException e) {
-				throw new DBException(MessageConstants.UNABLE_TO_GET_BATCH_LIST);
-			} catch (SQLException e) {
+			}catch (SQLException e) {
 				throw new DBException(MessageConstants.UNABLE_TO_GET_BATCH_LIST);
 			}finally {
 				ConnectionUtil.close(con, pst, rs);

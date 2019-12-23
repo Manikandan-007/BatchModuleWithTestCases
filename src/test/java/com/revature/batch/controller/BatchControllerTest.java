@@ -39,13 +39,13 @@ import com.revature.batch.model.Trainer;
 import com.revature.batch.service.BatchService;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class CreateBatchTest {
+public class BatchControllerTest {
 
 	@Rule
 	  public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 	
 	@InjectMocks
-	private CreateBatch createBatchController;
+	private BatchController createBatchController;
 	
 	@Mock
 	private BatchService batchService;

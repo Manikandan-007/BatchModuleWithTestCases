@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
+import com.revature.batch.exception.DBException;
 import com.revature.batch.model.ActiveDay;
 
 public class DayDaoTest {
@@ -11,7 +12,7 @@ public class DayDaoTest {
 	private DayDaoImpl dayDao = new DayDaoImpl();
 	
 	@Test
-	public void testCheckIsDayPresent() {
+	public void testCheckIsDayPresent() throws DBException {
 		ActiveDay activeDay = new ActiveDay();
 		activeDay.setDayId(1);
 		boolean isDayPresent = dayDao.checkIsDayPresent(activeDay);
@@ -20,7 +21,7 @@ public class DayDaoTest {
 	}
 	
 	@Test
-	public void testCheckIsDayPresentInValid() {
+	public void testCheckIsDayPresentInValid() throws DBException {
 		ActiveDay activeDay = new ActiveDay();
 		activeDay.setDayId(8);
 		boolean isDayPresent = dayDao.checkIsDayPresent(activeDay);

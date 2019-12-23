@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.batch.dao.BatchImplDao;
+import com.revature.batch.dao.BatchDaoImpl;
 import com.revature.batch.dao.BatchTraineeDaoImpl;
 import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchListDto;
@@ -27,7 +27,7 @@ public class BatchService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BatchService.class);
 	
 	@Autowired
-	private BatchImplDao batchImplDao;
+	private BatchDaoImpl batchDaoImpl;
 	
 	@Autowired
 	private BatchValidator batchValidator;
@@ -37,6 +37,7 @@ public class BatchService {
 
 	/** 
 	 * batchCreationService in BatchService
+	 * @throws ValidatorException 
 	 * @Param BatchDataDto object
 	 * 
 	 * return RemovedCoTrainerAndDays
@@ -44,7 +45,7 @@ public class BatchService {
 	 * If the credential is Invalid or if DB issue occur in DAO,
 	 *  Here it will throw ServiceException
 	 */
-	public RemovedCoTrainerAndDays batchCreationService(BatchDataDto batchDataDto) throws ServiceException {
+	public RemovedCoTrainerAndDays batchCreationService(BatchDataDto batchDataDto) throws ServiceException, ValidatorException {
 
 		RemovedCoTrainerAndDays removedCoTrainerAndDays = null;
 		try {
@@ -63,14 +64,14 @@ public class BatchService {
 			
 			LOGGER.info("--->", batchDataDto);
 			LOGGER.debug("--->", removedCoTrainerAndDays);
-			batchImplDao.createBatchDao(batchDataDto);
+			batchDaoImpl.createBatchDao(batchDataDto);
 			
 		} catch (DBException e) {
 			LOGGER.error(e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} catch (ValidatorException e) {
 			LOGGER.error(e.getMessage());
-			throw new ServiceException(e.getMessage());
+			throw new ValidatorException(e.getMessage());
 		}
 		
 		return removedCoTrainerAndDays;
@@ -88,10 +89,10 @@ public class BatchService {
 		
 		List<BatchListDto> batchList;
 		try {
-			batchList = batchImplDao.getBatchList();
+			batchList = batchDaoImpl.getBatchList();
 			
 			for (BatchListDto batchListDto : batchList) {
-				List<CoTrainerListDto> coTrainerListDto = batchImplDao.getCoTrainerList(batchListDto.getId());
+				List<CoTrainerListDto> coTrainerListDto = batchDaoImpl.getCoTrainerList(batchListDto.getId());
 				batchListDto.setCoTrainerList(coTrainerListDto);
 				
 				List<BatchTrainee> batchTraineeList = batchTraineeDaoImpl.getBatchTraineeList(batchListDto.getId());

@@ -39,7 +39,7 @@ public class BatchTraineeServiceTest {
 //    }
 	
 	@Test
-	public void testAddBatchTraineeService() {
+	public void testAddBatchTraineeService() throws DBException {
 		boolean isInserted = false;
 		BatchTraineeListDto batchTraineeListDto = new BatchTraineeListDto();
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
@@ -64,7 +64,7 @@ public class BatchTraineeServiceTest {
 	}
 
 	@Test
-	public void testAddBatchTraineeServiceInvalidInValidator() {
+	public void testAddBatchTraineeServiceInvalidInValidator() throws DBException {
 		boolean isInserted = false;
 		BatchTraineeListDto batchTraineeListDto = new BatchTraineeListDto();
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();

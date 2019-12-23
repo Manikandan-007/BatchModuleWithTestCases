@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.revature.batch.dto.BatchTraineeDto;
+import com.revature.batch.exception.DBException;
 import com.revature.batch.util.ConnectionUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,7 +41,7 @@ public class BatchTraineeDaoTest {
     private ResultSet mockResultSet;
 	
 	@Before
-	public void setup() throws SQLException {
+	public void setup() throws SQLException, DBException {
 		when (ConnectionUtil.getConnection()).thenReturn(con);
 		doNothing().when(con).commit();
 		when(preStmt.execute()).thenReturn(Boolean.TRUE);
@@ -48,7 +49,7 @@ public class BatchTraineeDaoTest {
 		when(mockResultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
 	}
 	@Test
-	public void testAddTraineeIntoBatch() {
+	public void testAddTraineeIntoBatch() throws DBException {
 		
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();

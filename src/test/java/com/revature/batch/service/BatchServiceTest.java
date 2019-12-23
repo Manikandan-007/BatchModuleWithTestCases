@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.revature.batch.dao.BatchImplDao;
+import com.revature.batch.dao.BatchDaoImpl;
 import com.revature.batch.dao.BatchTraineeDaoImpl;
 import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchListDto;
@@ -38,7 +38,7 @@ public class BatchServiceTest {
 	private BatchService batchService;
 	
 	@Mock
-	private BatchImplDao batchImplDao;
+	private BatchDaoImpl batchDaoImpl;
 	
 	@Mock
 	private BatchValidator batchValidator;
@@ -47,7 +47,7 @@ public class BatchServiceTest {
 	private BatchTraineeDaoImpl batchTraineeDaoImpl;
 	
 	@Test
-	public void testBatchListServiceValid(){
+	public void testBatchListServiceValid() throws DBException{
 		
 		List<BatchListDto> batchList = new ArrayList<BatchListDto>();
 		BatchListDto batchListDto = new BatchListDto();
@@ -84,9 +84,9 @@ public class BatchServiceTest {
 		
 		List<BatchListDto> BatchListDtoList = null;
 		try {
-			Mockito.when(batchImplDao.getBatchList()).thenReturn(batchList);
+			Mockito.when(batchDaoImpl.getBatchList()).thenReturn(batchList);
 			
-			when(batchImplDao.getCoTrainerList(batchListDto.getId())).thenReturn(coTrainerList);
+			when(batchDaoImpl.getCoTrainerList(batchListDto.getId())).thenReturn(coTrainerList);
 			
 			when(batchTraineeDaoImpl.getBatchTraineeList(batchListDto.getId())).thenReturn(batchTraineeList);
 			
@@ -98,7 +98,7 @@ public class BatchServiceTest {
 	}
 	
 	@Test
-	public void testBatchListServiceInValid () {
+	public void testBatchListServiceInValid () throws DBException {
 		
 		BatchListDto batchListDto = new BatchListDto();
 		batchListDto.setId(1);
@@ -107,9 +107,9 @@ public class BatchServiceTest {
 		
 		List<BatchListDto> BatchListDtoList = null;
 		try {
-			Mockito.when(batchImplDao.getBatchList()).thenThrow(DBException.class);
+			Mockito.when(batchDaoImpl.getBatchList()).thenThrow(DBException.class);
 			
-			when(batchImplDao.getCoTrainerList(batchListDto.getId())).thenThrow(DBException.class);
+			when(batchDaoImpl.getCoTrainerList(batchListDto.getId())).thenThrow(DBException.class);
 			
 			when(batchTraineeDaoImpl.getBatchTraineeList(batchListDto.getId())).thenThrow(DBException.class);
 			
@@ -121,7 +121,7 @@ public class BatchServiceTest {
 	}
 	
 	@Test
-	public void testBatchCreationServiceValid () {
+	public void testBatchCreationServiceValid () throws DBException {
 		
 		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
 		Batch batch = new Batch();
@@ -152,7 +152,7 @@ public class BatchServiceTest {
 		try {
 			Mockito.when(batchValidator.createBatchValidator(batchDataDto)).thenReturn(removedCoTrainerAndDays);
 			
-			Mockito.when(batchImplDao.createBatchDao(batchDataDto)).thenReturn(true);
+			Mockito.when(batchDaoImpl.createBatchDao(batchDataDto)).thenReturn(true);
 			
 			removedCoTrainerAndDays = batchService.batchCreationService(batchDataDto);
 		} catch (ServiceException | ValidatorException e) {

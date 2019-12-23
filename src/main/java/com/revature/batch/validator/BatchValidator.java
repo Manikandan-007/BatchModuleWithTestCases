@@ -17,6 +17,7 @@ import com.revature.batch.dao.DayDaoImpl;
 import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchTraineeDto;
 import com.revature.batch.dto.RemovedCoTrainerAndDays;
+import com.revature.batch.exception.DBException;
 import com.revature.batch.exception.ValidatorException;
 import com.revature.batch.model.ActiveDay;
 import com.revature.batch.model.Candidate;
@@ -85,7 +86,12 @@ public class BatchValidator {
 		List<ActiveDay> dayList = batchDataDto.getDayList();
 		List<ActiveDay> dayListCopy = new ArrayList<ActiveDay>();
 			dayList.stream().forEach((activeDay) -> {
-				boolean isDayPresent = dayDaoImpl.checkIsDayPresent(activeDay);
+				boolean isDayPresent = false;
+				try {
+					isDayPresent = dayDaoImpl.checkIsDayPresent(activeDay);
+				} catch (DBException e) {
+					
+				}
 				if(isDayPresent != true) {
 					dayListCopy.add(activeDay);
 				}
@@ -106,13 +112,14 @@ public class BatchValidator {
 
 	/** 
 	 * batchTraineeValidator in BatchValidator
+	 * @throws DBException 
 	 * @Param List<BatchTraineeDto> object
 	 * 
 	 * return List<BatchTraineeDto>
 	 * 
 	 * If the credential is Invalid, throw Exception
 	 */
-	public List<BatchTraineeDto> batchTraineeValidator(List<BatchTraineeDto> batchTraineeList) throws ValidatorException {
+	public List<BatchTraineeDto> batchTraineeValidator(List<BatchTraineeDto> batchTraineeList) throws ValidatorException, DBException {
 
 			List<Candidate> candidateList = candidateDaoImpl.getCandidate(batchTraineeList);
 			List<String> availableCandidateEmails= candidateList.stream()

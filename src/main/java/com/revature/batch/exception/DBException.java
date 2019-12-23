@@ -1,6 +1,6 @@
 package com.revature.batch.exception;
 
-public class DBException extends RuntimeException {
+public class DBException extends Exception {
 /**
 	 * 
 	 */

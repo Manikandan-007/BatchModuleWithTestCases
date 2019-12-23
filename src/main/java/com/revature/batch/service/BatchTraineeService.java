@@ -28,13 +28,14 @@ public class BatchTraineeService {
 	
 	/** 
 	 * addBatchTraineeService in BatchTraineeService
+	 * @throws ValidatorException 
 	 * @Param BatchTraineeListDto
 	 * 
 	 * return boolean
 	 * 
 	 * If the credential is Invalid or if DB issue occur in DAO, Here it will throw ServiceException
 	 */
-	public boolean addBatchTraineeService(BatchTraineeListDto batchTraineeListDto) throws ServiceException{
+	public boolean addBatchTraineeService(BatchTraineeListDto batchTraineeListDto) throws ServiceException, ValidatorException{
 
 		List<BatchTraineeDto> batchTraineeList = batchTraineeListDto.getBatchTraineeList();
 		boolean isInserted = false;
@@ -46,7 +47,7 @@ public class BatchTraineeService {
 			isInserted =  batchTraineeDaoImpl.addTraineeIntoBatch(batchTraineeList);
 		} catch (ValidatorException e) {
 			LOGGER.error(e.getMessage());
-			throw new ServiceException(e.getMessage());
+			throw new ValidatorException(e.getMessage());
 		}catch (DBException e) {
 			throw new ServiceException(e.getMessage());
 		}

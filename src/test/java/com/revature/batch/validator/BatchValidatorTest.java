@@ -12,6 +12,7 @@ import com.revature.batch.dao.CandidateDaoImpl;
 import com.revature.batch.dto.BatchDataDto;
 import com.revature.batch.dto.BatchTraineeDto;
 import com.revature.batch.dto.RemovedCoTrainerAndDays;
+import com.revature.batch.exception.DBException;
 import com.revature.batch.exception.ValidatorException;
 import com.revature.batch.model.ActiveDay;
 import com.revature.batch.model.Batch;
@@ -20,7 +21,7 @@ import com.revature.batch.model.CoTrainer;
 public class BatchValidatorTest {
 	
 	@Test
-	public void testBatchTraineeValidatorValid() {
+	public void testBatchTraineeValidatorValid() throws DBException {
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		batchTraineeDto.setBatchId(1);
@@ -42,7 +43,7 @@ public class BatchValidatorTest {
 	}
 
 	@Test
-	public void testBatchTraineeValidatorInvalid() {
+	public void testBatchTraineeValidatorInvalid() throws DBException {
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		batchTraineeDto.setBatchId(1);
@@ -64,7 +65,7 @@ public class BatchValidatorTest {
 	}
 	
 	@Test(expected = ValidatorException.class)
-	public void testBatchTraineeValidatorInvalidAllTrainee() throws ValidatorException {
+	public void testBatchTraineeValidatorInvalidAllTrainee() throws ValidatorException, DBException {
 		List<BatchTraineeDto> batchTraineeList = new ArrayList<BatchTraineeDto>();
 		BatchTraineeDto batchTraineeDto = new BatchTraineeDto();
 		batchTraineeDto.setBatchId(1);

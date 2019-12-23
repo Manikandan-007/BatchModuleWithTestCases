@@ -22,17 +22,18 @@ import com.revature.batch.util.MessageConstants;
 @Repository
 public class BatchTraineeDaoImpl {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BatchImplDao.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BatchDaoImpl.class);
 	
 	/** 
 	 * addTraineeIntoBatch in BatchTraineeDaoImpl
+	 * @throws DBException 
 	 * @Param List<BatchTraineeDto>
 	 * 
 	 * return boolean
 	 * 
 	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
 	 */
-	public boolean addTraineeIntoBatch(List<BatchTraineeDto> batchTraineeList) {
+	public boolean addTraineeIntoBatch(List<BatchTraineeDto> batchTraineeList) throws DBException {
 		
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -61,9 +62,7 @@ public class BatchTraineeDaoImpl {
 				row = pst.executeUpdate();
 				pst.close();
 				con.commit();
-		} catch (DBException e) {
-			throw new DBException(e.getMessage());
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			try {
 				con.rollback(addTrainee);
 			} catch (SQLException e1) {
@@ -82,13 +81,14 @@ public class BatchTraineeDaoImpl {
 
 	/** 
 	 * getBatchTraineeList in BatchTraineeDaoImpl
+	 * @throws DBException 
 	 * @Param id
 	 * 
 	 * return List<BatchTrainee>
 	 * 
 	 * If SQL stmt error or if DB issue occur in DAO, Here it will throw DBException
 	 */
-	public List<BatchTrainee> getBatchTraineeList(int id) {
+	public List<BatchTrainee> getBatchTraineeList(int id) throws DBException {
 		Connection con = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -122,8 +122,6 @@ public class BatchTraineeDaoImpl {
 					
 					batchTraineeList.add(batchTrainee);
 				}
-			} catch (DBException e) {
-				throw new DBException(MessageConstants.UNABLE_TO_GET_BATCH_TRAINEE_LIST);
 			} catch (SQLException e) {
 				throw new DBException(e.getMessage());
 			} finally {

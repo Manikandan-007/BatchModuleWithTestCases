@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.batch.dto.BatchTraineeListDto;
 import com.revature.batch.exception.ServiceException;
+import com.revature.batch.exception.ValidatorException;
 import com.revature.batch.service.BatchTraineeService;
 import com.revature.batch.util.Message;
 
@@ -18,13 +19,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("batchTrainee")
+@RequestMapping("batch")
 public class BatchTraineeController {
 
 	@Autowired 
 	private BatchTraineeService batchTraineeService;
 	
-	@PostMapping("/add_trainee")
+	@PostMapping("/trainee")
 	@ApiOperation(value = "Batch API")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Message.class),
 			@ApiResponse(code = 400, message = "Invalid Credentials", response = Message.class) })
@@ -34,9 +35,12 @@ public class BatchTraineeController {
 			batchTraineeService.addBatchTraineeService(batchTraineeListDto);
 			Message message = new Message("Trainee added successfully");
 			return new ResponseEntity<>(message, HttpStatus.OK );
-		} catch (ServiceException e) {
+		} catch (ValidatorException e) {
 			Message message = new Message(e.getMessage());
 			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST );
+		} catch (ServiceException e) {
+			Message message = new Message(e.getMessage());
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR );
 		}
 	}
 	

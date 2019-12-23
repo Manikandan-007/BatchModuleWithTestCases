@@ -15,7 +15,7 @@ import com.revature.batch.util.MessageConstants;
 @Repository
 public class DayDaoImpl {
 
-	public boolean checkIsDayPresent(ActiveDay activeDay) {
+	public boolean checkIsDayPresent(ActiveDay activeDay) throws DBException {
 
 		boolean isDayPresent = false;
 		Connection con = null;
@@ -31,8 +31,6 @@ public class DayDaoImpl {
 				if (rs.next()) {
 					isDayPresent = true;
 				}
-			} catch (DBException e) {
-				throw new DBException(MessageConstants.UNABLE_TO_GET_DAY);
 			} catch (SQLException e) {
 				throw new DBException(MessageConstants.UNABLE_TO_GET_DAY);
 		}
