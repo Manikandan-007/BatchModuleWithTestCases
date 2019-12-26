@@ -83,7 +83,7 @@ public class BatchValidatorTest {
 	
 	@Test(expected = ValidatorException.class)
 	public void testCreateBatchValidatorInValidBatchName() throws ValidatorException {
-		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		BatchDataDto batchDataDto = new BatchDataDto();
 		Batch batch = new Batch();
 		batch.setName(null);
 		batch.setActiveHrs(8);
@@ -114,7 +114,7 @@ public class BatchValidatorTest {
 	
 	@Test(expected = ValidatorException.class)
 	public void testCreateBatchValidatorInValidDate() throws ValidatorException {
-		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		BatchDataDto batchDataDto = new BatchDataDto();
 		Batch batch = new Batch();
 		batch.setName("Batch1");
 		batch.setActiveHrs(8);
@@ -152,7 +152,7 @@ public class BatchValidatorTest {
 	
 	@Test(expected = ValidatorException.class)
 	public void testCreateBatchValidatorInValidCoTrainers() throws ValidatorException {
-		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		BatchDataDto batchDataDto = new BatchDataDto();
 		Batch batch = new Batch();
 		batch.setName("Batch1");
 		batch.setActiveHrs(8);
@@ -187,6 +187,6 @@ public class BatchValidatorTest {
 		
 			removedCoTrainerAndDays = new BatchValidator(new CandidateDaoImpl()).createBatchValidator(batchDataDto);
 			
-		assertNotNull(removedCoTrainerAndDays);
+		assertNull(removedCoTrainerAndDays);
 	}
 }

@@ -123,7 +123,7 @@ public class BatchServiceTest {
 	@Test
 	public void testBatchCreationServiceValid () throws DBException {
 		
-		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		BatchDataDto batchDataDto = new BatchDataDto();
 		Batch batch = new Batch();
 		batch.setName("name");
 		batch.setActiveHrs(8);

@@ -133,18 +133,18 @@ public class BatchControllerTest {
 		
 		when(batchService.batchListService()).thenReturn(batchList);
 		
-		mockMvc.perform(get("/batch/batch_list")
+		mockMvc.perform(get("/batches")
 					.contentType("application/json"))
 					.andExpect(status().isOk())
 					.andDo(print())
-					.andDo(document("CreateBatch/batch_list", preprocessRequest(prettyPrint()),
+					.andDo(document("batch/batch-list", preprocessRequest(prettyPrint()),
 				            preprocessResponse(prettyPrint())));		
 	}
 	
 	@Test
 	public void testBatchCreation() throws Exception {
 		
-		BatchDataDto batchDataDto = new BatchDataDto(null, null, null);
+		BatchDataDto batchDataDto = new BatchDataDto();
 		Batch batch = new Batch();
 		batch.setName("Batch-2019");
 		batch.setActiveHrs(8);
@@ -191,11 +191,11 @@ public class BatchControllerTest {
 		when(batchService.batchCreationService(batchDataDto)).thenReturn(removedCoTrainerAndDays);
 		
 		String userJson = new ObjectMapper().writeValueAsString(batchDataDto);
-		mockMvc.perform(post("/batch/create_new")
+		mockMvc.perform(post("/batch")
 					.contentType("application/json").content(userJson)
 					.characterEncoding("utf-8"))
 					.andDo(print())
-					.andDo(document("CreateBatch/create_new", preprocessRequest(prettyPrint()),
+					.andDo(document("batch/create-batch", preprocessRequest(prettyPrint()),
 				            preprocessResponse(prettyPrint())));		
 	}
 

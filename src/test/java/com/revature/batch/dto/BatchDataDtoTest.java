@@ -22,7 +22,7 @@ public class BatchDataDtoTest {
 		
 		List<CoTrainer> coTrainerList =  new ArrayList<CoTrainer>();
 		
-		BatchDataDto BatchDataDto = new BatchDataDto(batch, activeDayList, coTrainerList);
+		BatchDataDto BatchDataDto = new BatchDataDto();
 		
 		BatchDataDto.setBatch(batch);
 		BatchDataDto.setCoTrainer(coTrainerList);

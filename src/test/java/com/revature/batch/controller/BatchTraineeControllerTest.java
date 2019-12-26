@@ -74,7 +74,7 @@ public class BatchTraineeControllerTest {
 		when(batchTraineeService.addBatchTraineeService(batchTraineeListDto)).thenReturn(true);
 		
 		String userJson = new ObjectMapper().writeValueAsString(batchTraineeListDto);
-		mockMvc.perform(post("/batchTrainee/add_trainee")
+		mockMvc.perform(post("/batch/trainee")
 					.contentType(MediaType.APPLICATION_JSON).content(userJson)
 					.characterEncoding("utf-8"))
 					.andDo(print())

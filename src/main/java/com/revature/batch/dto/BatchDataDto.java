@@ -13,13 +13,6 @@ public class BatchDataDto {
 	private List<ActiveDay> dayList;
 	
 	private List<CoTrainer> coTrainer;
-	
-	public BatchDataDto(Batch batch, List<ActiveDay> dayList, List<CoTrainer> coTrainer) {
-		super();
-		this.batch = batch;
-		this.dayList = dayList;
-		this.coTrainer = coTrainer;
-	}
 
 	public Batch getBatch() {
 		return batch;
