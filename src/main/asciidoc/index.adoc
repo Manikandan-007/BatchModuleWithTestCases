@@ -1,0 +1,15 @@
+= Batch Documentation
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:sectnums:
+:nofooter:
+
+[[resources]]
+== Resources
+. link:batch-endpoints.html[Batch Endpoints]
+. link:batch-trainee-endpoints.html[Batch Trainee Endpoints]
+

@@ -1,0 +1,42 @@
+= Batch Endpoints
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:sectnums:
+
+[.text-right]
+link:index.html[Back To Index]
+
+== Batch List
+
+.request
+include::{snippets}/CreateBatch/batch_list/http-request.adoc[]
+
+.response
+include::{snippets}/CreateBatch/batch_list/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CreateBatch/batch_list/curl-request.adoc[]
+
+.response-body
+include::{snippets}/CreateBatch/batch_list/response-body.adoc[]
+
+== Create Batch
+
+.request
+include::{snippets}/CreateBatch/create_new/http-request.adoc[]
+
+.response
+include::{snippets}/CreateBatch/create_new/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CreateBatch/create_new/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CreateBatch/create_new/request-body.adoc[]
+
+.response-body
+include::{snippets}/CreateBatch/create_new/response-body.adoc[]
